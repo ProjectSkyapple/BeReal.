@@ -32,8 +32,8 @@ GIF created with [Kap](https://getkap.co/) for macOS.
 
 ## Notes
 
-The most prominent challenge I encountered while developing the app was getting the `assetIdentifiers` of a selected photo's `PHAsset` when a user selects an image from the `PHPicker` while creating a post.
-The `assetIdentifiers` would always be `nil`.
+The most prominent challenge I encountered while developing the app was getting the `assetIdentifier`s of a selected photo's `PHAsset` when a user selects an image from the `PHPicker` while creating a post.
+The `assetIdentifier`s would always be `nil`.
 However, I figured out that my `PHPickerConfiguration` instance's `photoLibrary` property was not initialized to `PHPhotoLibrary.shared()`. This had to be done so the `assetIdentifier`s would not be `nil`.
 
 ## License
@@ -51,4 +51,3 @@ However, I figured out that my `PHPickerConfiguration` instance's `photoLibrary`
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-    
