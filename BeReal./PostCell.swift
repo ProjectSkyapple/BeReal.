@@ -27,6 +27,20 @@ class PostCell: UITableViewCell {
         if let caption = post?.caption {
             CaptionLabel.text = caption
         }
+        
+        var locationAndTimeLabelText: String?
+        if let locationName = post?.location {
+            locationAndTimeLabelText = locationName + " · "
+        }
+        if let takenTime = post?.createdTime {
+            let timeFormatter = DateFormatter()
+            timeFormatter.timeStyle = .short
+            
+            locationAndTimeLabelText? += timeFormatter.string(from: takenTime)
+        }
+        if locationAndTimeLabelText != nil {
+            LocationAndTimeLabel.text = locationAndTimeLabelText
+        }
 
         // Image
         if let imageFile = post?.imageFile,

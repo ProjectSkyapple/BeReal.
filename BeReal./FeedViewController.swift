@@ -63,8 +63,10 @@ class FeedViewController: UIViewController, UITableViewDataSource {
                 // Update local posts property with fetched posts
                 self?.posts = posts
                 // print(self?.posts)
+                self?.FeedTableView.refreshControl?.endRefreshing()
             case .failure(let error):
                 self?.showFeedErrorAlert(description: error.localizedDescription)
+                self?.FeedTableView.refreshControl?.endRefreshing()
             }
         }
     }
@@ -90,13 +92,19 @@ class FeedViewController: UIViewController, UITableViewDataSource {
         FeedTableView.dataSource = self
         FeedTableView.allowsSelection = false
         FeedTableView.rowHeight = UITableView.automaticDimension
-        
-        queryPosts()
+        FeedTableView.refreshControl = UIRefreshControl()
+        FeedTableView.refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
+        FeedTableView.refreshControl?.tintColor = .lightGray
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        queryPosts()
+        FeedTableView.reloadData()
+    }
+    
+    @objc func refresh(_ sender: Any) {
         queryPosts()
         FeedTableView.reloadData()
     }

@@ -8,9 +8,13 @@
 import UIKit
 import PhotosUI
 import ParseSwift
+import CoreLocation
 
 class CreatePostViewController: UIViewController, PHPickerViewControllerDelegate {
     var pickedImage: UIImage?
+    var locationName: String?
+    var createdTime: Date?
+    var location: CLLocation?
     
     @IBOutlet weak var PreviewImageView: UIImageView!
     @IBOutlet weak var CaptionTextField: UITextField!
@@ -19,10 +23,23 @@ class CreatePostViewController: UIViewController, PHPickerViewControllerDelegate
         // When finished picking
         picker.dismiss(animated: true)
         
+        let geocoder = CLGeocoder()
+        
         guard let provider = results.first?.itemProvider,
            // Make sure the provider can load a UIImage
            provider.canLoadObject(ofClass: UIImage.self) else { return }
 
+        var result = results.first
+        
+        if let assetId = result?.assetIdentifier {
+            let assetResults = PHAsset.fetchAssets(withLocalIdentifiers: [assetId], options: nil)
+
+            createdTime = assetResults.firstObject?.creationDate
+            //print(createdTime)
+            self.location = assetResults.firstObject?.location
+            //print(self.location)
+          }
+        
         // Load a UIImage from the provider
         provider.loadObject(ofClass: UIImage.self) { [weak self] object, error in
             
@@ -32,6 +49,17 @@ class CreatePostViewController: UIViewController, PHPickerViewControllerDelegate
                 // ❌ Unable to cast to UIImage
                 self?.showCreatePostErrorAlert(description: "An image conversion has failed.")
                 return
+            }
+            
+            if let gottenLocation = self?.location {
+                geocoder.reverseGeocodeLocation(gottenLocation) {
+                    placemarks, error -> Void in
+                    
+                    if let locationName = placemarks?.first?.name {
+                        self?.locationName = locationName
+                        print(locationName)
+                    }
+                }
             }
             
             // Check for and handle any errors
@@ -68,7 +96,9 @@ class CreatePostViewController: UIViewController, PHPickerViewControllerDelegate
         // Set properties
         post.imageFile = imageFile
         post.caption = CaptionTextField.text
-
+        post.location = self.locationName
+        post.createdTime = self.createdTime
+        
         // Set the user as the current user
         post.user = User.current
 
@@ -99,7 +129,7 @@ class CreatePostViewController: UIViewController, PHPickerViewControllerDelegate
         // CaptionTextField.tintColor = .lightGray
         CaptionTextField.attributedPlaceholder = NSAttributedString(string: "Add a caption...", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
 
-        var config = PHPickerConfiguration()
+        var config = PHPickerConfiguration(photoLibrary: PHPhotoLibrary.shared()) // So assetIds are not nil
         config.filter = .images
         config.preferredAssetRepresentationMode = .current
         config.selectionLimit = 1
