@@ -29,7 +29,7 @@ class CreatePostViewController: UIViewController, PHPickerViewControllerDelegate
            // Make sure the provider can load a UIImage
            provider.canLoadObject(ofClass: UIImage.self) else { return }
 
-        var result = results.first
+        let result = results.first
         
         if let assetId = result?.assetIdentifier {
             let assetResults = PHAsset.fetchAssets(withLocalIdentifiers: [assetId], options: nil)
@@ -106,17 +106,36 @@ class CreatePostViewController: UIViewController, PHPickerViewControllerDelegate
         post.save { [weak self] result in
 
             // Switch to the main thread for any UI updates
-            DispatchQueue.main.async {
-                switch result {
+            switch result {
                 case .success(let post):
                     print("✅ Post Saved! \(post)")
-
-                    // Return to previous view controller
-                    self?.navigationController?.popViewController(animated: true)
-
+                
+                    if var currentUser = User.current {
+                        currentUser.lastPostedDate = Date();
+                        
+                        currentUser.save { [weak self] result in
+                            
+                            switch result {
+                                case .success(let user):
+                                    print("✅ User Saved! \(user)")
+                                
+                                DispatchQueue.main.async {
+                                    // Return to previous view controller
+                                    self?.navigationController?.popViewController(animated: true)
+                                }
+                            case .failure(let error):
+                                DispatchQueue.main.async {
+                                    self?.showCreatePostErrorAlert(description: error.localizedDescription)
+                                }
+                            }
+                            
+                        }
+                    }
+                    
                 case .failure(let error):
-                    self?.showCreatePostErrorAlert(description: error.localizedDescription)
-                }
+                    DispatchQueue.main.async {
+                        self?.showCreatePostErrorAlert(description: error.localizedDescription)
+                    }
             }
         }
     }

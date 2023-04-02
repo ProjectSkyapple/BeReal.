@@ -7,6 +7,7 @@
 
 import UIKit
 import PhotosUI
+import ParseSwift
 
 class FeedViewController: UIViewController, UITableViewDataSource {
     var posts: [Post]? {
@@ -52,9 +53,14 @@ class FeedViewController: UIViewController, UITableViewDataSource {
     }
     
     private func queryPosts() {
+        let yesterdayDate = Calendar.current.date(byAdding: .day, value: (-1), to: Date())!
+        let whereConstraint: QueryConstraint = "createdAt" >= yesterdayDate;
+        
         let query = Post.query()
             .include("user")
             .order([.descending("createdAt")])
+            .where(whereConstraint)
+            .limit(10)
 
         // Fetch objects (posts) defined in query (async)
         query.find { [weak self] result in
