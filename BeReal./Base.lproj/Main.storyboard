@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -164,6 +165,14 @@
                                                         <constraint firstAttribute="width" secondItem="obz-Jc-Cbk" secondAttribute="height" multiplier="1:1" id="aYJ-aF-fRD"/>
                                                     </constraints>
                                                 </imageView>
+                                                <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LeU-qn-akq">
+                                                    <rect key="frame" x="20" y="113" width="353" height="353"/>
+                                                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="jqo-IT-m0C">
+                                                        <rect key="frame" x="0.0" y="0.0" width="353" height="353"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    </view>
+                                                    <blurEffect style="dark"/>
+                                                </visualEffectView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a2v-4N-SZG">
                                                     <rect key="frame" x="20" y="474" width="353" height="15"/>
                                                     <constraints>
@@ -178,9 +187,13 @@
                                                 <constraint firstAttribute="trailingMargin" secondItem="a2v-4N-SZG" secondAttribute="trailing" id="ABt-8f-DNr"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="71M-JZ-rq4" secondAttribute="trailing" id="N7S-4P-31R"/>
                                                 <constraint firstItem="71M-JZ-rq4" firstAttribute="leading" secondItem="FAH-YR-Agc" secondAttribute="leadingMargin" id="S9f-4f-Lu0"/>
+                                                <constraint firstItem="obz-Jc-Cbk" firstAttribute="bottom" secondItem="LeU-qn-akq" secondAttribute="bottom" id="SVv-yd-Bpa"/>
                                                 <constraint firstItem="71M-JZ-rq4" firstAttribute="top" secondItem="y6Q-As-uLk" secondAttribute="bottom" constant="1" id="TFF-gC-mlB"/>
+                                                <constraint firstItem="obz-Jc-Cbk" firstAttribute="trailing" secondItem="LeU-qn-akq" secondAttribute="trailing" id="TQS-ji-cYV"/>
                                                 <constraint firstItem="a2v-4N-SZG" firstAttribute="top" secondItem="obz-Jc-Cbk" secondAttribute="bottom" constant="8" id="UhU-md-tGb"/>
+                                                <constraint firstItem="LeU-qn-akq" firstAttribute="leading" secondItem="obz-Jc-Cbk" secondAttribute="leading" id="VcS-TX-WbS"/>
                                                 <constraint firstItem="a2v-4N-SZG" firstAttribute="leading" secondItem="FAH-YR-Agc" secondAttribute="leadingMargin" id="hdX-WA-ihZ"/>
+                                                <constraint firstItem="LeU-qn-akq" firstAttribute="top" secondItem="obz-Jc-Cbk" secondAttribute="top" id="k7u-Je-HD7"/>
                                                 <constraint firstItem="obz-Jc-Cbk" firstAttribute="top" secondItem="71M-JZ-rq4" secondAttribute="bottom" constant="8" id="ksp-Rn-Twb"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="y6Q-As-uLk" secondAttribute="trailing" id="lEG-ez-Igg"/>
                                                 <constraint firstItem="y6Q-As-uLk" firstAttribute="top" secondItem="FAH-YR-Agc" secondAttribute="topMargin" id="lJG-u2-nsb"/>
@@ -192,6 +205,7 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
+                                            <outlet property="BlurView" destination="LeU-qn-akq" id="0j4-tO-s7q"/>
                                             <outlet property="CaptionLabel" destination="a2v-4N-SZG" id="LzG-VR-ynr"/>
                                             <outlet property="LocationAndTimeLabel" destination="71M-JZ-rq4" id="hJw-Di-1dd"/>
                                             <outlet property="NameLabel" destination="y6Q-As-uLk" id="RI1-Ql-yWA"/>

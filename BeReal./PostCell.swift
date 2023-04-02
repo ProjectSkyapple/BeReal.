@@ -14,11 +14,14 @@ class PostCell: UITableViewCell {
     @IBOutlet weak var LocationAndTimeLabel: UILabel!
     @IBOutlet weak var PostImageView: UIImageView!
     @IBOutlet weak var CaptionLabel: UILabel!
+    @IBOutlet weak var BlurView: UIVisualEffectView!
     
     var imageDataRequest: DataRequest?
     
     func configure(with post: Post?) {
         PostImageView.layer.cornerRadius = 9
+        BlurView.layer.cornerRadius = 9
+        BlurView.clipsToBounds = true
         
         if let user = post?.user {
             NameLabel.text = user.username
@@ -56,6 +59,15 @@ class PostCell: UITableViewCell {
                     print("❌ Error fetching image: \(error.localizedDescription)")
                     break
                 }
+            }
+        }
+        
+        if let currentUser = User.current, let lastPostedDate = currentUser.lastPostedDate, let postCreatedDate = post?.createdAt, let dateDifference = Calendar.current.dateComponents([.hour], from: postCreatedDate, to: lastPostedDate).hour {
+            if abs(dateDifference) < 24 || post?.user == currentUser {
+                BlurView.isHidden = true
+            }
+            else {
+                BlurView.isHidden = false
             }
         }
     }
