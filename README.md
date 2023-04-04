@@ -34,7 +34,8 @@ GIF created with [Kap](https://getkap.co/) for macOS.
 
 ## Notes
 
-This is an easy iteration to the BeReal. Clone project. No issues were encountered while implementing this iteration.
+- This is an easy iteration to the BeReal. Clone project. No issues were encountered while implementing this iteration.
+- Because I do not have an iPhone, I could not use the camera on the simulator to simulate taking photos on the app.
 
 # Project 5 - *BeReal. Clone*
 
