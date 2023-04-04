@@ -28,7 +28,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-
+[Imgur](https://imgur.com/m84hlzO)
 
 GIF created with [Kap](https://getkap.co/) for macOS.
 
